@@ -9,14 +9,6 @@ on:
     inputs:
       version:
         description: Synergy version number
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - ready_for_review
-  schedule:
-    - cron: "0 5 * * *" # 5am UTC
 
 env:
   GIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -24,10 +16,10 @@ env:
   SYNERGY_EDITION_TYPE: ${{ vars.SYNERGY_EDITION_TYPE }}
   SYNERGY_PACKAGE_PREFIX: ${{ vars.SYNERGY_PACKAGE_PREFIX }}
   SYNERGY_ENABLE_ACTIVATION: ${{ vars.SYNERGY_ENABLE_ACTIVATION }}
-  PACKAGE_BUILD: ${{ !github.event.pull_request.draft }}
-  PACKAGE_UPLOAD: ${{ !github.event.pull_request.draft }}
-  UPLOAD_TO_GITHUB: ${{ github.event_name == 'pull_request' && !github.event.pull_request.draft }}
-  UPLOAD_TO_GDRIVE: ${{ github.event_name != 'pull_request' && github.event_name != 'schedule' }}
+  PACKAGE_BUILD: true
+  PACKAGE_UPLOAD: true
+  UPLOAD_TO_GITHUB: true
+  UPLOAD_TO_GDRIVE: false
 
 jobs:
   # Quality gate to allow PR merge, used in the branch protection rules.
@@ -254,7 +246,7 @@ jobs:
         shell: bash
         env:
           DEBIAN_FRONTEND: noninteractive
-        run : |
+        run: |
           if [ "${{ matrix.distro.like }}" == "debian" ]; then
             apt update
             apt install -y git python3 python3-venv
