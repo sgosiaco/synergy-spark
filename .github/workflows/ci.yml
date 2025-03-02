@@ -15,7 +15,7 @@ env:
   SYNERGY_PRODUCT_NAME: ${{ vars.SYNERGY_PRODUCT_NAME }}
   SYNERGY_EDITION_TYPE: ${{ vars.SYNERGY_EDITION_TYPE }}
   SYNERGY_PACKAGE_PREFIX: ${{ vars.SYNERGY_PACKAGE_PREFIX }}
-  SYNERGY_ENABLE_ACTIVATION: ${{ vars.SYNERGY_ENABLE_ACTIVATION }}
+  SYNERGY_ENABLE_ACTIVATION: false
   PACKAGE_BUILD: true
   PACKAGE_UPLOAD: true
   UPLOAD_TO_GITHUB: true
@@ -43,8 +43,7 @@ jobs:
 
       matrix:
         target:
-          - name: windows-2022-x64
-            runs-on: windows-2022-8-core-x64
+          runs-on: windows-2022
 
     steps:
       - name: Checkout
